@@ -37,7 +37,6 @@ def get_dividers(id: str) -> list[int]:
 def _check(id: str, divider: int):
     substr = id[:divider]
 
-    # pprint({"id": id, "divider": divider, "substr": substr, "count": id.count(substr), "expected": len(id) / divider,})
     return id.count(substr) == int(len(id) / divider)
 
 def check(id: str, dividers: list[int]) -> bool:
@@ -50,39 +49,44 @@ def check(id: str, dividers: list[int]) -> bool:
 
 
 
-def first_star():
-    pass
-
-
-def second_star():
-    pass
-
-
-
-def main():
-    data = get_input()
-    sum = 0
-
-
-
+def first_star(data: list[tuple[int, int]]):
     pprint("=== FIRST STAR ===")
-    # for r in data:
-    #     for id in range(int(r[0]), int(r[1])):
-    #         if not is_valid_id(str(id)):
-    #             sum += id
-    # pprint(sum)
 
-    # data = [(1211, 1216)]
+    sum = 0
+    for r in data:
+        for id in range(int(r[0]), int(r[1])):
+            if not is_valid_id(str(id)):
+                sum += id
+    return sum
 
 
+
+def second_star(data: list[tuple[int, int]]):
     pprint("=== SECOND STAR ===")
+
+    sum = 0
     for r in data:
         for id in range(int(r[0]), int(r[1])):
             dividers = get_dividers(str(id))
             if check(str(id), dividers):
                 sum += id
+    return sum
 
-    print(sum)
+
+
+def main():
+    data = get_input()
+
+
+    first_star_result = first_star(data)
+    pprint({"first_star_result": first_star_result})
+    second_star_result = second_star(data)
+    pprint({"second_star_result": second_star_result})
+
+
+
+
+
 
 
 
