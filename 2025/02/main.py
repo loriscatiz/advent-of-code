@@ -22,27 +22,29 @@ def is_valid_id(id: str) -> bool:
     return False
 
 
-def check(id: str, steps: int) -> bool:
-    if not int(id) % steps:
-        return False
-
-    x = []
-    for i in range(steps):
-        start = (i * steps)
-        x.append(id[start:steps])
 
 
 
-def is_valid_id_two(id: str) -> bool:
-    steps = 1
-    while steps < (len(id) // 2):
-        for i in range(len(id) // 2 + 1):
-            if id[i] == id[i + steps]:
-                print(id)
-                print("found match")
-                check(id, steps)
-        steps += 1
+def get_dividers(id: str) -> list[int]:
+    """GETS THE VALID LENGHTS OF THE POSSIBLE INVALID NUMBER TO CHECK LATER"""
+    dividers = []
+    for i in range(1, ( len(id) // 2 ) + 1):
+        if len(id) % i == 0:
+            dividers.append(i)
 
+    return dividers
+
+def _check(id: str, divider: int):
+    substr = id[:divider]
+
+    # pprint({"id": id, "divider": divider, "substr": substr, "count": id.count(substr), "expected": len(id) / divider,})
+    return id.count(substr) == int(len(id) / divider)
+
+def check(id: str, dividers: list[int]) -> bool:
+    for divider in dividers:
+        if _check(id, divider):
+            return True
+    return False
 
 
 
@@ -70,12 +72,17 @@ def main():
     #             sum += id
     # pprint(sum)
 
+    # data = [(1211, 1216)]
 
 
     pprint("=== SECOND STAR ===")
-    for r in data[:4]:
+    for r in data:
         for id in range(int(r[0]), int(r[1])):
-            is_valid_id_two(str(id))
+            dividers = get_dividers(str(id))
+            if check(str(id), dividers):
+                sum += id
+
+    print(sum)
 
 
 
